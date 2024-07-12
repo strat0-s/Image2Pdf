@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Images</title>
+</head>
+
+<body>
+    <h1>Upload Images</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {% for form in formset %}
+        {{ form.as_p }}
+        {% endfor %}
+        <button type="submit">Upload and Convert to PDF</button>
+    </form>
+</body>
+
+</html>
