@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Images</title>
+</head>
+
+<body>
+    <h1>Upload Images</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formset.management_form }}
+
+        <div id="formset">
+            {% for form in formset %}
+            <div class="formset-form">
+                {{ form.imginst.label_tag }}
+                {{ form.imginst }}
+                {{ form.imginst.errors }}
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" id="add-more">Add More Images</button>
+        <br><br>
+        <button type="button" id="clear-button">Clear</button>
+        <button type="submit">Upload Images</button>
+        <br><br>
+        <p>User is requested to clear pictures after pdf download</p>
+    </form>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('add-more').addEventListener('click', function () {
+                var formset = document.getElementById('formset');
+                var totalForms = document.getElementById('id_form-TOTAL_FORMS');
+                var newFormIdx = parseInt(totalForms.value);
+
+                var newForm = document.createElement('div');
+                newForm.classList.add('formset-form');
+                newForm.innerHTML = '<label for="id_form-' + newFormIdx + '-imginst">Image:</label>' +
+                    '<input type="file" name="form-' + newFormIdx + '-imginst" ' +
+                    'id="id_form-' + newFormIdx + '-imginst" required>';
+                formset.appendChild(newForm);
+
+                totalForms.value = newFormIdx + 1;
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('clear-button').addEventListener('click', function () {
+                if (confirm('Are you sure you want to delete all uploaded media?')) {
+                    fetch("{% url 'clear_media' %}", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        }
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                alert('Media cleared successfully.');
+                                window.location.reload();
+                            } else {
+                                alert('Failed to clear media.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while clearing media.');
+                        });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
