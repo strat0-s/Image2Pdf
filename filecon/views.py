@@ -5,7 +5,6 @@ from .forms import ImageUploadFormSet
 import img2pdf
 import os
 from django.conf import settings
-from django.contrib.auth.forms import UserCreationForm
 
 def upload_images(request):
     if request.method == 'POST':
@@ -57,4 +56,3 @@ def clear_media(request):
                 print(f"Failed to delete {file_path}: {e}")
     
     return redirect('upload_images')
-
