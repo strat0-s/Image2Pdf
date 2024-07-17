@@ -9,6 +9,7 @@
 
 <body>
     <h1>Upload Images</h1>
+    <label>username: {{user.username}} <a href="{% url 'logout1' %}">logout</a></label>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
