@@ -3,16 +3,161 @@
 
 <head>
     <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: linear-gradient(45deg, #d2001a, #7462ff);
+            background-size: 300% 300%;
+            animation: color 12s ease-in-out infinite;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        @keyframes color {
+            0% {
+                background-position: 0 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        .login-form {
+            background: #fff;
+            width: 500px;
+            margin: 65px auto;
+            display: flex;
+            flex-direction: column;
+            border-radius: 4px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-form h1 {
+            padding: 35px 35px 0 35px;
+            font-weight: 300;
+        }
+
+        .login-form .content {
+            padding: 35px;
+            text-align: center;
+        }
+
+        .login-form .input-field {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .login-form .input-field input {
+            font-size: 16px;
+            display: block;
+            font-family: 'Rubik', sans-serif;
+            width: 100%;
+            padding: 10px 0;
+            border: 0;
+            border-bottom: 1px solid #747474;
+            outline: none;
+            transition: all .2s;
+        }
+
+        .login-form .input-field input::placeholder {
+            text-transform: uppercase;
+        }
+
+        .login-form .input-field input:focus {
+            border-color: #222;
+        }
+
+        .login-form .input-field .help-text {
+            font-size: 12px;
+            color: #747474;
+            margin-top: 5px;
+        }
+
+        .login-form .input-field .error-message {
+            color: red;
+            font-size: 12px;
+        }
+
+        .login-form a.link {
+            text-decoration: none;
+            color: #747474;
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .login-form .action {
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+        }
+
+        .login-form .action button {
+            width: 100%;
+            border: none;
+            padding: 18px;
+            font-family: 'Rubik', sans-serif;
+            cursor: pointer;
+            text-transform: uppercase;
+            background: #e8e9ec;
+            color: #777;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 0;
+            letter-spacing: 0.2px;
+            outline: 0;
+            transition: all .3s;
+        }
+
+        .login-form .action button:hover {
+            background: #d8d8d8;
+        }
+
+        .login-form .action button:nth-child(2) {
+            background: #2d3b55;
+            color: #fff;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 4px;
+        }
+
+        .login-form .action button:nth-child(2):hover {
+            background: #3c4d6d;
+        }
+    </style>
 </head>
 
 <body>
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <a href="{% url 'register1' %}">Register</a>
+    <div class="login-form">
+        <h1>Login</h1>
+        <div class="content">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="input-field">
+                    {{ form.username.label_tag }}<br>
+                    {{ form.username }}<br>
+                    <span class="help-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+                </div>
+                <div class="input-field">
+                    {{ form.password.label_tag }}<br>
+                    {{ form.password }}<br>
+                    <span class="help-text">Enter your password.</span>
+                </div>
+                <div class="action">
+                    <button type="submit">Login</button>
+                    <button type="button" onclick="location.href='{% url 'register1' %}'">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

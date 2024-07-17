@@ -5,11 +5,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>No Images Uploaded</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: linear-gradient(45deg, #d2001a, #7462ff);
+            background-size: 300% 300%;
+            animation: color 12s ease-in-out infinite;
+            font-family: 'Rubik', sans-serif;
+            text-align: center;
+            height: 100vh; /* Ensure body covers the full viewport height */
+            display: flex; /* Center content vertically */
+            align-items: center; /* Center content vertically */
+            justify-content: center; /* Center content horizontally */
+        }
+
+        @keyframes color {
+            0% {
+                background-position: 0 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        .container {
+            background: #fff;
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 4px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+            padding: 35px;
+            text-align: center;
+        }
+
+        .container h1 {
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .container a {
+            text-decoration: none;
+            color: #2d3b55;
+            font-size: 16px;
+            font-weight: bold;
+            background: #e8e9ec;
+            padding: 10px 20px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .container a:hover {
+            background: #d8d8d8;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>No Images Uploaded</h1>
-    <a href="{%url 'upload'%}">Go Back to Upload Page</a>
+    <div class="container">
+        <h1>No Images Uploaded</h1>
+        <a href="{% url 'upload' %}">Go Back to Upload Page</a>
+    </div>
 </body>
 
 </html>
