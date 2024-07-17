@@ -5,35 +5,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Images</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: linear-gradient(45deg, #d2001a, #7462ff);
+            background-size: 300% 300%;
+            animation: color 12s ease-in-out infinite;
+            font-family: 'Rubik', sans-serif;
+            text-align: center;
+            height: 100vh; /* Ensure body covers the full viewport height */
+            display: flex; /* Center content vertically */
+            align-items: center; /* Center content vertically */
+            justify-content: center; /* Center content horizontally */
+        }
+
+        @keyframes color {
+            0% {
+                background-position: 0 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        .upload-form {
+            background: #fff;
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 4px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+            padding: 35px;
+        }
+
+        .upload-form h1 {
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .upload-form .username-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .upload-form .username-container .username-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .upload-form .username-container button {
+            background: #2d3b55;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background .3s;
+        }
+
+        .upload-form .username-container button:hover {
+            background: #3c4d6d;
+        }
+
+        .upload-form label {
+            font-size: 16px;
+            color: #333;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .upload-form .formset-form {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .upload-form .formset-form input[type="file"] {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #747474;
+            border-radius: 4px;
+        }
+
+        .upload-form button {
+            border: none;
+            padding: 15px 20px;
+            font-family: 'Rubik', sans-serif;
+            cursor: pointer;
+            text-transform: uppercase;
+            background: #e8e9ec;
+            color: #777;
+            border-radius: 4px;
+            letter-spacing: 0.2px;
+            outline: 0;
+            transition: all .3s;
+            margin: 10px 0;
+        }
+
+        .upload-form button:hover {
+            background: #d8d8d8;
+        }
+
+        .upload-form button:nth-child(3) {
+            background: #2d3b55;
+            color: #fff;
+        }
+
+        .upload-form button:nth-child(3):hover {
+            background: #3c4d6d;
+        }
+
+        .upload-form p {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #747474;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Upload Images</h1>
-    <label>username: {{user.username}} <a href="{% url 'logout1' %}">logout</a></label>
-
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ formset.management_form }}
-
-        <div id="formset">
-            {% for form in formset %}
-            <div class="formset-form">
-                {{ form.imginst.label_tag }}
-                {{ form.imginst }}
-                {{ form.imginst.errors }}
-            </div>
-            {% endfor %}
+    <div class="upload-form">
+        <h1>Upload Images</h1>
+        <div class="username-container">
+            <span class="username-label">Username: {{ user.username }}</span>
+            <button onclick="location.href='{% url 'logout1' %}'">Logout</button>
         </div>
 
-        <button type="button" id="add-more">Add More Images</button>
-        <br><br>
-        <button type="button" id="clear-button">Clear</button>
-        <button type="submit">Upload Images</button>
-        <br><br>
-        <p>User is requested to clear pictures after downloading the pdf</p>
-    </form>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ formset.management_form }}
 
+            <div id="formset">
+                {% for form in formset %}
+                <div class="formset-form">
+                    {{ form.imginst.label_tag }}
+                    {{ form.imginst }}
+                    {{ form.imginst.errors }}
+                </div>
+                {% endfor %}
+            </div>
 
+            <button type="button" id="add-more">Add More Images</button>
+            <button type="button" id="clear-button">Clear</button>
+            <button type="submit">Upload Images</button>
+
+            <p>User is requested to clear pictures after downloading the pdf</p>
+        </form>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -52,6 +182,7 @@
                 totalForms.value = newFormIdx + 1;
             });
         });
+
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('clear-button').addEventListener('click', function () {
                 if (confirm('Are you sure you want to delete all uploaded media?')) {

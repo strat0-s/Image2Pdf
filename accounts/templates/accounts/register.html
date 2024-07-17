@@ -3,16 +3,174 @@
 
 <head>
     <title>Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: linear-gradient(45deg, #d2001a, #7462ff);
+            background-size: 300% 300%;
+            animation: color 12s ease-in-out infinite;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        @keyframes color {
+            0% {
+                background-position: 0 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        .register-form {
+            background: #fff;
+            width: 500px;
+            margin: 65px auto;
+            display: flex;
+            flex-direction: column;
+            border-radius: 4px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .register-form h1 {
+            padding: 35px 35px 0 35px;
+            font-weight: 300;
+        }
+
+        .register-form .content {
+            padding: 35px;
+            text-align: center;
+        }
+
+        .register-form .input-field {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .register-form .input-field input {
+            font-size: 16px;
+            display: block;
+            font-family: 'Rubik', sans-serif;
+            width: 100%;
+            padding: 10px 0;
+            border: 0;
+            border-bottom: 1px solid #747474;
+            outline: none;
+            transition: all .2s;
+        }
+
+        .register-form .input-field input::placeholder {
+            text-transform: uppercase;
+        }
+
+        .register-form .input-field input:focus {
+            border-color: #222;
+        }
+
+        .register-form .input-field .help-text {
+            font-size: 12px;
+            color: #747474;
+            margin-top: 5px;
+        }
+
+        .register-form .input-field .error-message {
+            color: red;
+            font-size: 12px;
+        }
+
+        .register-form a.link {
+            text-decoration: none;
+            color: #747474;
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .register-form .action {
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+        }
+
+        .register-form .action button {
+            width: 100%;
+            border: none;
+            padding: 18px;
+            font-family: 'Rubik', sans-serif;
+            cursor: pointer;
+            text-transform: uppercase;
+            background: #e8e9ec;
+            color: #777;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 0;
+            letter-spacing: 0.2px;
+            outline: 0;
+            transition: all .3s;
+        }
+
+        .register-form .action button:hover {
+            background: #d8d8d8;
+        }
+
+        .register-form .action button:nth-child(2) {
+            background: #2d3b55;
+            color: #fff;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 4px;
+        }
+
+        .register-form .action button:nth-child(2):hover {
+            background: #3c4d6d;
+        }
+    </style>
 </head>
 
 <body>
-    <h2>Register</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
-    <a href="{% url 'login1' %}">Login</a>
+    <div class="register-form">
+        <h1>Register</h1>
+        <div class="content">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="input-field">
+                    {{ form.username.label_tag }}<br>
+                    {{ form.username }}<br>
+                    <span class="help-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+                    {{ form.username.errors }}
+                </div>
+                <div class="input-field">
+                    {{ form.email.label_tag }}<br>
+                    {{ form.email }}<br>
+                    <span class="help-text">Enter a valid email address.</span>
+                    {{ form.email.errors }}
+                </div>
+                <div class="input-field">
+                    {{ form.password1.label_tag }}<br>
+                    {{ form.password1 }}<br>
+                    {{ form.password1.errors }}
+                </div>
+                <div class="input-field">
+                    {{ form.password2.label_tag }}<br>
+                    {{ form.password2 }}<br>
+                    <span class="help-text">Enter the same password as before, for verification.</span>
+                    {{ form.password2.errors }}
+                </div>
+                <div class="action">
+                    <button type="submit">Register</button>
+                    <button type="button" onclick="location.href='{% url 'login1' %}'">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>
